@@ -1,8 +1,12 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
-def format_datetime(YYYYMMDDhhmmss: str) -> str:
+def format_datetime(YYYYMMDDhhmmss: str, delta=0) -> str:
     tmp = datetime.strptime(YYYYMMDDhhmmss, '%Y%m%d%H%M%S')
-    return tmp.strftime('%Y-%m-%d %H:%M:%S')
+    tmp += timedelta(milliseconds=delta)
+    if delta == 0:
+        return tmp.strftime('%Y-%m-%d %H:%M:%S') 
+    else:
+        return tmp.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
 
 def format_log(server_address: str, start_time: str, restore_time: str, response_time: int, error_name=''):
     start_time = format_datetime(start_time)
